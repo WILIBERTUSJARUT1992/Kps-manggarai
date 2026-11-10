@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koperasi Manggarai Raya</title>
+<style>
+:root{
+  --navy:#0f172a;
+  --navy-light:#1e293b;
+  --blue:#2563eb;
+  --blue-gradient:linear-gradient(135deg, #2563eb, #1d4ed8);
+  --green:#10b981;
+  --green-gradient:linear-gradient(135deg, #10b981, #047857);
+  --gold:#f59e0b;
+  --gold-gradient:linear-gradient(135deg, #f59e0b, #d97706);
+  --red:#ef4444;
+  --red-gradient:linear-gradient(135deg, #ef4444, #b91c1c);
+  --purple:#8b5cf6;
+  --purple-gradient:linear-gradient(135deg, #8b5cf6, #6d28d9);
+  --cyan:#06b6d4;
+  --cyan-gradient:linear-gradient(135deg, #06b6d4, #0e7490);
+  --content-bg:#f1f5f9;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --card-shadow:0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  
+  --active-theme:#2563eb;
+  --active-theme-bg:linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;background:var(--content-bg);color:var(--ink);min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0;border-radius:8px;padding:8px 12px;background:var(--blue-gradient);color:white;font-weight:700;transition:all 0.2s ease;box-shadow:0 3px 10px rgba(37,99,235,0.2)}
+button:hover{transform:translateY(-1px);filter:brightness(1.1);box-shadow:0 5px 14px rgba(37,99,235,0.3)}
+button:active{transform:translateY(0)}
+.hidden{display:none!important}
+
+/* Tombol Kecil (Compact Buttons) */
+.btn-sm{padding:4px 9px;font-size:11px;border-radius:6px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+.btn-sm:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,0.15)}
+
+.pdf-export-btn{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 3px 10px rgba(239,68,68,0.25);font-size:11.5px;padding:6px 11px;display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:6px}
+.pdf-export-btn:hover{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+
+.perm-save-btn{background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 3px 10px rgba(16,185,129,0.25);font-size:11.5px;padding:6px 11px;display:inline-flex;align-items:center;gap:5px;border-radius:6px}
+.perm-save-btn:hover{background:linear-gradient(135deg,#059669,#047857)}
+
+/* Login View Styling */
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);position:relative;overflow:hidden}
+.login{position:relative;z-index:1;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:32px;border-radius:24px;width:min(420px,100%);box-shadow:0 25px 50px -12px rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.3)}
+.brand{text-align:center;margin-bottom:22px}
+.brand .logo{font-size:42px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15))}
+.brand h1{font-size:22px;margin:8px 0 4px;color:var(--navy);font-weight:800;letter-spacing:-0.5px}
+.brand p{margin:0;color:var(--muted);font-size:13px;font-weight:500}
+label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px;color:#334155}
+input,select{width:100%;padding:9px 11px;border:1.5px solid #cbd5e1;border-radius:8px;background:white;transition:all 0.2s ease;font-size:13px}
+input:focus,select:focus{outline:none;border-color:var(--active-theme);box-shadow:0 0 0 3px rgba(37,99,235,0.15)}
+.login button{width:100%;margin-top:16px;padding:11px;font-size:13.5px}
+.hint{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:16px;background:#f8fafc;padding:10px 12px;border-radius:8px;border:1px solid #e2e8f0}
+
+/* App Main Layout */
+.app{display:flex;min-height:100vh;background:#f8fafc}
+.sidebar{width:240px;background:var(--navy);color:white;padding:20px 14px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;box-shadow:4px 0 20px rgba(0,0,0,0.1);z-index:10}
+.sidebrand{font-weight:800;font-size:16px;padding:4px 8px 18px;line-height:1.3;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:12px}
+.sidebrand small{display:block;color:#94a3b8;font-weight:400;font-size:11px;margin-top:2px}
+
+.nav button{display:block;width:100%;text-align:left;background:transparent;color:#cbd5e1;margin:3px 0;font-weight:600;font-size:13px;padding:9px 12px;border-radius:8px;box-shadow:none;transition:all 0.2s ease}
+.nav button:hover{background:rgba(255,255,255,0.1);color:white;transform:translateX(3px)}
+
+/* Dynamic Color Themes Per Menu */
+body.theme-dashboard .nav button[data-page="dashboard"] { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+body.theme-members .nav button[data-page="members"] { background: linear-gradient(135deg, #059669, #047857); color: white; box-shadow: 0 4px 12px rgba(5,150,105,0.3); }
+body.theme-cards .nav button[data-page="cards"] { background: linear-gradient(135deg, #d97706, #b45309); color: white; box-shadow: 0 4px 12px rgba(217,119,6,0.3); }
+body.theme-savings .nav button[data-page="savings"] { background: linear-gradient(135deg, #0891b2, #0e7490); color: white; box-shadow: 0 4px 12px rgba(8,145,178,0.3); }
+body.theme-loans .nav button[data-page="loans"] { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+body.theme-profile .nav button[data-page="profile"] { background: linear-gradient(135deg, #475569, #334155); color: white; box-shadow: 0 4px 12px rgba(71,85,105,0.3); }
+body.theme-settings .nav button[data-page="settings"] { background: linear-gradient(135deg, #e11d48, #be123c); color: white; box-shadow: 0 4px 12px rgba(225,29,72,0.3); }
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{background:white;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(15,23,42,0.06);position:sticky;top:0;z-index:9}
+.topbar strong{font-size:17px;color:var(--navy);font-weight:800}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.content{padding:18px 22px;max-width:1400px;margin:0 auto;width:100%}
+
+/* Header & Cards */
+.pagehead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.pagehead h2{margin:0;font-size:19px;color:var(--navy);font-weight:800}
+.muted{color:var(--muted);font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:14px 0 18px}
+.stat{min-height:110px;display:flex;flex-direction:column;justify-content:space-between;background:var(--blue-gradient);color:white;border:0;border-radius:14px;padding:14px;box-shadow:0 6px 18px -4px rgba(37,99,235,0.25);position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;right:-15px;bottom:-15px;width:65px;height:65px;background:rgba(255,255,255,0.1);border-radius:50%;pointer-events:none}
+.stat .label{font-size:11.5px;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:0.3px}
+.stat .value{font-size:clamp(15px,1.8vw,22px);font-weight:900;margin-top:6px;color:white;text-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.stat .icon{align-self:flex-end;font-size:22px;opacity:.95;line-height:1}
+
+.blue{background:linear-gradient(135deg,#2563eb,#1e40af);box-shadow:0 6px 18px -4px rgba(37,99,235,0.3)}
+.green{background:linear-gradient(135deg,#10b981,#047857);box-shadow:0 6px 18px -4px rgba(16,185,129,0.3)}
+.gold{background:linear-gradient(135deg,#f59e0b,#b45309);box-shadow:0 6px 18px -4px rgba(245,158,11,0.3)}
+.red{background:linear-gradient(135deg,#ef4444,#b91c1c);box-shadow:0 6px 18px -4px rgba(239,68,68,0.3)}
+.purple{background:linear-gradient(135deg,#8b5cf6,#5b21b6);box-shadow:0 6px 18px -4px rgba(139,92,246,0.3)}
+.cyan{background:linear-gradient(135deg,#06b6d4,#0e7490);box-shadow:0 6px 18px -4px rgba(6,182,212,0.3)}
+
+.panel{background:white;border-radius:14px;padding:16px 18px;margin:12px 0;box-shadow:var(--card-shadow);border:1px solid #f1f5f9;position:relative}
+.panel h3{margin:0 0 12px 0;padding-left:10px;border-left:4px solid var(--blue);font-size:14.5px;color:var(--navy);font-weight:800;letter-spacing:-0.2px}
+.panel.border-blue h3{border-left-color:var(--blue)}
+.panel.border-green h3{border-left-color:var(--green)}
+.panel.border-gold h3{border-left-color:var(--gold)}
+.panel.border-purple h3{border-left-color:var(--purple)}
+.panel.border-red h3{border-left-color:var(--red)}
+.panel.border-cyan h3{border-left-color:var(--cyan)}
+
+.gridform{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.gridform button{align-self:end;height:38px}
+.tablewrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;border:1px solid #e2e8f0}
+table{width:100%;border-collapse:collapse;min-width:100%}
+th,td{text-align:left;padding:9px 9px;border-bottom:1px solid #f1f5f9;font-size:12px;white-space:nowrap;vertical-align:middle}
+th{background:#f8fafc;color:#475569;font-weight:700;font-size:11px;letter-spacing:0.2px}
+tr:last-child td{border-bottom:0}
+tr:hover td{background:#f8fafc}
+td.num, th.num{text-align:right}
+
+.secondary{background:#64748b;box-shadow:0 3px 10px rgba(100,116,139,0.2)}
+.danger{background:var(--red-gradient);box-shadow:0 3px 10px rgba(239,68,68,0.2)}
+.success{background:var(--green-gradient);box-shadow:0 3px 10px rgba(16,185,129,0.2)}
+
+/* Styling Kartu Anggota (KTA) Digital Keren */
+.kta-card {
+  width: 440px;
+  height: 270px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0369a1 100%);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  padding: 18px 22px;
+  color: white;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.4), inset 0 0 15px rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kta-bg-overlay {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+}
+
+.kta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 8px;
+}
+
+.kta-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kta-title {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.kta-subtitle {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.5px;
+  margin-top: 1px;
+}
+
+.kta-chip {
+  width: 36px;
+  height: 26px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+.kta-chip::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.5);
+}
+
+.kta-body {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.kta-avatar-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.kta-avatar-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background: #0284c7;
+}
+
+.kta-avatar-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: white;
+}
+
+.kta-status-tag {
+  font-size: 8px;
+  font-weight: 800;
+  background: #10b981;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+}
+
+.kta-info { flex: 1; }
+.kta-label { font-size: 8px; color: #94a3b8; font-weight: 700; letter-spacing: 0.3px; }
+.kta-name { font-size: 14.5px; font-weight: 900; color: #fde047; letter-spacing: 0.4px; margin-bottom: 5px; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+.kta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.kta-val-code { font-size: 11.5px; font-weight: 800; color: #ffffff; letter-spacing: 0.5px; }
+.kta-val { font-size: 10.5px; font-weight: 600; color: #e2e8f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+
+.kta-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255, 255, 255, 0.2); padding-top: 6px; }
+.kta-motto { font-size: 9.5px; font-style: italic; color: #38bdf8; font-weight: 600; }
+.kta-qr-sim { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 22px; height: 22px; background: white; padding: 2px; border-radius: 4px; }
+.qr-block { background: #0f172a; border-radius: 1px; }
+
+.member-thumb { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; vertical-align: middle; }
+.member-thumb-icon { width: 34px; height: 34px; border-radius: 50%; background: #0284c7; color: white; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; vertical-align: middle; }
+
+.notice{padding:10px 12px;border-radius:8px;background:#fef3c7;color:#92400e;font-size:12px;line-height:1.4;border:1px solid #fde68a}
+.empty{padding:20px;text-align:center;color:var(--muted);font-size:12px}
+
+/* Notification Toast */
+#toast{position:fixed;bottom:20px;right:20px;background:#0f172a;color:white;padding:10px 16px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,0.3);font-size:12.5px;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;transition:all 0.3s ease;transform:translateY(100px);opacity:0;border:1px solid rgba(255,255,255,0.1)}
+#toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:760px){
+  .app{display:block}
+  .sidebar{width:100%;padding:10px}
+  .sidebrand{padding:2px 6px 6px;font-size:14px;margin-bottom:4px}
+  .nav{display:flex;overflow-x:auto;gap:3px}
+  .nav button{white-space:nowrap;width:auto;margin:0;padding:6px 9px;font-size:11px}
+  .content{padding:10px}
+  .topbar{padding:8px 12px}
+  .topbar strong{font-size:14px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .stat{padding:10px;min-height:90px}
+  .stat .value{font-size:13px}
+  .pagehead{align-items:flex-start;flex-direction:column;margin-bottom:6px}
+  .pagehead h2{font-size:15px}
+  .panel{padding:10px;margin:8px 0;border-radius:10px}
+  .panel h3{font-size:13px;margin-bottom:8px}
+  th,td{padding:6px 4px;font-size:10.5px}
+  input,select,button{padding:6px 8px;font-size:11px}
+  .gridform{grid-template-columns:1fr 1fr;gap:6px}
+  .gridform button{height:34px;grid-column:span 2}
+  .kta-card{width:100%;max-width:360px;height:auto;aspect-ratio:1.6/1;padding:14px}
+}
+
+/* Exact Login Design matching reference image */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #0284c7 0%, #1e3a8a 50%, #0f172a 100%);
+  position: relative;
+  overflow-y: auto;
+  color: white;
+}
+
+.login-header-banner {
+  text-align: center;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.login-header-banner .logo-circle {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.login-header-banner h1 {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.login-header-banner p {
+  font-size: 11.5px;
+  color: #38bdf8;
+  font-weight: 700;
+  margin: 2px 0 0;
+  letter-spacing: 0.5px;
+}
+
+.login-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 28px 24px;
+  border-radius: 24px;
+  width: min(420px, 100%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(56, 189, 248, 0.25);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  text-align: center;
+}
+
+.login-card-icon {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  border-radius: 50%;
+  margin: -50px auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(37,99,235,0.5);
+  border: 2px solid rgba(255,255,255,0.4);
+  font-size: 24px;
+}
+
+.login-card h2 {
+  font-size: 21px;
+  font-weight: 900;
+  margin: 0 0 4px;
+  color: white;
+}
+
+.login-card .sub-welcome {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+.input-group-custom {
+  position: relative;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.input-group-custom input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: white;
+  font-size: 13.5px;
+  transition: all 0.2s ease;
+}
+
+.input-group-custom input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.input-group-custom input::placeholder {
+  color: #64748b;
+}
+
+.input-group-custom .input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.input-group-custom .eye-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin: 14px 0 20px;
+  color: #cbd5e1;
+}
+
+.login-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.login-options input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.login-options a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.login-options a:hover {
+  text-decoration: underline;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14.5px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.login-submit-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 24px rgba(37,99,235,0.6);
+}
+
+.login-card-footer {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #64748b;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 12px;
+}
+
+.login-features-bar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 24px;
+  z-index: 2;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+.login-features-bar div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+
+/* Extra Compact Buttons for Topbar Actions & Sidebar */
+.btn-sm, .pdf-export-btn, .perm-save-btn {
+  padding: 3px 8px !important;
+  font-size: 10.5px !important;
+  border-radius: 5px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12) !important;
+  white-space: nowrap !important;
+  gap: 4px !important;
+}
+
+.topbar {
+  background: white;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  gap: 10px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+</style></head>
+<body class="theme-dashboard">
+
+<!-- Form Login Utama (Sesuai Desain Referensi) -->
+<div id="loginView" class="login-wrap">
+  <div class="login-header-banner">
+    <div class="logo-circle">
+      <svg width="42" height="42" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="#0284c7"/>
+        <circle cx="35" cy="38" r="14" fill="#ffffff"/>
+        <circle cx="65" cy="38" r="14" fill="#10b981"/>
+        <path d="M25 75 C25 55 75 55 75 75" fill="#ffffff"/>
+        <circle cx="50" cy="30" r="16" fill="#ffffff"/>
+        <path d="M45 50 L55 50 L55 75 L45 75 Z" fill="#10b981"/>
+      </svg>
+    </div>
+    <h1>KOPERASI MANGGARAI RAYA</h1>
+    <p>&ldquo;Koperasi Maju, Anggota Sejahtera&rdquo;</p>
+  </div>
+
+  <div class="login-card">
+    <div class="login-card-icon">👥</div>
+    <h2>Selamat Datang!</h2>
+    <div class="sub-welcome">Silakan login untuk masuk ke akun Anda</div>
+    
+    <form id="loginForm">
+      <div class="input-group-custom">
+        <span class="input-icon">👤</span>
+        <input id="loginUser" required autocomplete="username" placeholder="Username">
+      </div>
+      <div class="input-group-custom">
+        <span class="input-icon">🔒</span>
+        <input id="loginPass" type="password" required autocomplete="current-password" placeholder="Password">
+        <span class="eye-icon" onclick="let p=document.getElementById('loginPass'); p.type = p.type==='password'?'text':'password'; this.textContent = p.type==='password'?'👁️':'👁️‍🗨️';">👁️</span>
+      </div>
+      <div class="login-options">
+        <label><input type="checkbox" checked> Ingat Saya</label>
+        <button type="button" id="toForgotBtn" style="background:none;border:none;color:#38bdf8;padding:0;font-size:12px;font-weight:700;cursor:pointer;box-shadow:none">Lupa Password?</button>
+      </div>
+      <button type="submit" class="login-submit-btn">
+        <span>MASUK</span> &rarr;
+      </button>
+    </form>
+    
+    <div class="login-card-footer">
+      Koperasi Digital &bull; Maju Bersama, Sejahtera Bersama
+      <div style="margin-top:6px; font-size:10.5px; color:#94a3b8">Akun Admin: <b>Wilibertus jarut</b> / <b>admin</b></div>
+    </div>
+  </div>
+
+  <div class="login-features-bar">
+    <div>🤝 <span>Transparan</span></div>
+    <div>🛡️ <span>Aman</span></div>
+    <div>📈 <span>Profesional</span></div>
+    <div>👥 <span>Kebersamaan</span></div>
+  </div>
+</div>
+
+<!-- Form Validasi Lupa Akun Anggota -->
+<div id="forgotView" class="login-wrap hidden"><div class="login">
+ <div class="brand"><div class="logo">🔍</div><h1>PEMULIHAN AKUN</h1><p>Validasi Data Anggota</p></div>
+ <form id="forgotForm">
+   <label>Kode Anggota / ID NIK</label><input id="forgotId" required placeholder="Masukkan Kode Anggota / NIK" oninput="checkForgotAuto()">
+   <label>Nomor HP Terdaftar</label><input id="forgotPhone" required placeholder="Masukkan No. HP Anda" oninput="checkForgotAuto()">
+ </form>
+ <div id="forgotResult" class="notice hidden" style="margin-top:10px"></div>
+ <button type="button" id="toLoginBtn" style="background:none;border:none;color:var(--blue);padding:0;font-size:12px;font-weight:700;cursor:pointer;margin-top:12px;box-shadow:none">← Kembali ke Halaman Login</button>
+</div></div>
+
+<!-- Main Application Layout -->
+<div id="appView" class="app hidden">
+<aside class="sidebar">
+  <div>
+    <div class="sidebrand">🤝 KOPERASI MANGGARAI RAYA<small>Sistem Administrasi Koperasi</small></div>
+    <nav class="nav" id="nav">
+      <button data-page="dashboard">▦ Dashboard</button>
+      <button data-page="members">♙ Data Anggota</button>
+      <button data-page="cards">📇 Kartu Anggota</button>
+      <button data-page="savings">＋ Simpanan</button>
+      <button data-page="loans">⇄ Pinjaman</button>
+      <button data-page="profile">ⓘ Profil Koperasi</button>
+      <button data-page="settings" id="navSettings">⚙ Pengaturan Akun</button>
+    </nav>
+  </div>
+  <div style="margin-top:16px; display:flex; flex-direction:column; gap:6px" id="sidebarExportWrap">
+    <button class="pdf-export-btn btn-sm" id="sidebarExportPdfBtn" style="width:100%">📄 Export PDF Laporan</button>
+    <button class="perm-save-btn btn-sm" id="sidebarExportBtn" style="width:100%">💾 Simpan Permanen (Backup)</button>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <strong id="pageTitle">Dashboard Koperasi</strong>
+    <div class="topbar-actions">
+      <button class="pdf-export-btn btn-sm" id="topbarExportPdfBtn">📄 Export PDF Laporan</button>
+      <button class="perm-save-btn btn-sm" id="topbarExportBtn">💾 Simpan Permanen (JSON)</button>
+      <span id="who" class="muted"></span> &nbsp; 
+      <button class="secondary btn-sm" id="logout">Keluar</button>
+    </div>
+  </header>
+  <div class="content" id="content"></div>
+  <footer style="text-align:center; padding:14px; font-size:11.5px; color:#64748b; border-top:1px solid #e2e8f0; background:white; margin-top:auto; font-weight:600; letter-spacing:0.3px;">
+    &copy; 2026 IT KOPERASI WILIBERTUS JARUT. All rights reserved.
+  </footer>
+</main>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast">💾 Data Berhasil Disimpan Permanen!</div>
+
+<script>
+const KEY='kmr_data_v1';
+const fresh=()=>({users:[{username:'Wilibertus jarut',password:'admin',name:'Wilibertus Jarut',role:'admin'}],members:[],savings:[],loans:[],payments:[]});
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||fresh();
+let current=null, page='dashboard';
+let editingMemberIndex = -1;
+let editingSavingIndex = -1;
+let editingLoanIndex = -1;
+let editingPaymentIndex = -1;
+
+(function migrateAdmin(){
+  let adminUser = db.users.find(u=>u.role==='admin'||u.username.toLowerCase()==='wilibertus');
+  if(adminUser){
+    if(adminUser.username === 'wilibertus' && adminUser.password === 'Koperasi2026!'){
+      adminUser.username = 'Wilibertus jarut';
+      adminUser.password = 'admin';
+      save(false);
+    }
+  } else {
+    db.users.push({username:'Wilibertus jarut',password:'admin',name:'Wilibertus Jarut',role:'admin'});
+    save(false);
+  }
+})();
+
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if(!t) return;
+  t.textContent = msg || '💾 Data Berhasil Disimpan Permanen!';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function save(notify=true){
+  localStorage.setItem(KEY, JSON.stringify(db));
+  if(notify) showToast('✓ Transaksi & Data Berhasil Disimpan!');
+}
+
+function exportDataPermanently(){
+  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
+  let downloadAnchor = document.createElement('a');
+  let dateStr = new Date().toISOString().slice(0,10);
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `Backup_Koperasi_Manggarai_Raya_${dateStr}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+  showToast('💾 Backup File Database Berhasil Di-download!');
+}
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0)}
+function num(v){return Math.max(0,Number(v)||0)}
+function totalSavings(){return db.savings.reduce((s,x)=>s+num(x.amount),0)}
+function outstanding(){return db.loans.reduce((s,x)=>s+num(x.amount)-num(x.paidPrincipal),0)}
+function interestTotal(){return db.payments.reduce((s,x)=>s+num(x.interest),0)}
+function runningInterest(){return db.loans.reduce((s,x)=>s+Math.max(0,num(x.interest)-num(x.paidInterest)),0)}
+function totalFunds(){return totalSavings()+interestTotal()}
+function cashBalance(){return totalSavings()+db.payments.reduce((s,x)=>s+num(x.principal)+num(x.interest),0)-db.loans.reduce((s,x)=>s+num(x.amount),0)}
+
+function go(p){
+  if(p==='settings' && current && current.role!=='admin'){ alert('Menu pengaturan hanya dapat diakses oleh Admin.'); return; }
+  page=p;
+  document.body.className = 'theme-' + p;
+  render();
+}
+
+function cardsView(){
+  let isAdmin = current && current.role === 'admin';
+  let selectedMember = null;
+  if(!isAdmin){
+    selectedMember = db.members.find(m => m.name === current.name) || db.members[0];
+  } else {
+    let selectedId = window.selectedCardMemberId || (db.members[0] ? db.members[0].id : null);
+    selectedMember = db.members.find(m => m.id === selectedId) || db.members[0];
+  }
+
+  return `
+  <div class="pagehead">
+    <div>
+      <h2>📇 Kartu Anggota Digital (KTA)</h2>
+      <div class="muted">Kartu identitas resmi anggota Koperasi Manggarai Raya</div>
+    </div>
+    ${selectedMember ? `<button onclick="printMemberCard()" class="success btn-sm">🖨️ Cetak / Unduh Kartu</button>` : ''}
+  </div>
+
+  ${isAdmin ? `
+  <div class="panel border-gold" style="margin-bottom:16px">
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+      <label style="font-weight:700; margin:0">Pilih Anggota Koperasi:</label>
+      <select id="cardMemberSelect" onchange="window.selectedCardMemberId=this.value; render();" style="max-width:300px">
+        ${db.members.map(m => `<option value="${esc(m.id)}" ${selectedMember && selectedMember.id===m.id?'selected':''}>[${esc(m.code||'KOP')}] ${esc(m.name)}</option>`).join('')}
+      </select>
+    </div>
+  </div>
+  ` : ''}
+
+  ${selectedMember ? `
+  <div style="display:flex; flex-direction:column; align-items:center; padding:10px 0; gap:14px">
+    <div id="printableMemberCard" class="kta-card">
+      <div class="kta-bg-overlay"></div>
+      
+      <!-- Top Header -->
+      <div class="kta-header">
+        <div class="kta-brand">
+          <svg width="32" height="32" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="48" fill="#ffffff" stroke="#0284c7" stroke-width="3"/>
+            <circle cx="35" cy="38" r="14" fill="#0284c7"/>
+            <circle cx="65" cy="38" r="14" fill="#10b981"/>
+            <path d="M25 75 C25 55 75 55 75 75" fill="#0284c7"/>
+            <circle cx="50" cy="30" r="16" fill="#0284c7"/>
+            <path d="M45 50 L55 50 L55 75 L45 75 Z" fill="#10b981"/>
+          </svg>
+          <div>
+            <div class="kta-title">KOPERASI MANGGARAI RAYA</div>
+            <div class="kta-subtitle">KARTU TANDA ANGGOTA (KTA)</div>
+          </div>
+        </div>
+        <div class="kta-chip"></div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="kta-body">
+        <div class="kta-avatar-box">
+          ${selectedMember.photo ? `<img src="${selectedMember.photo}" class="kta-avatar-img">` : `<div class="kta-avatar-icon">${esc(selectedMember.name.charAt(0).toUpperCase())}</div>`}
+          <div class="kta-status-tag">ANGGOTA AKTIF</div>
+        </div>
+
+        <div class="kta-info">
+          <div class="kta-label">NAMA ANGGOTA</div>
+          <div class="kta-name">${esc(selectedMember.name)}</div>
+
+          <div class="kta-row">
+            <div>
+              <div class="kta-label">KODE ANGGOTA</div>
+              <div class="kta-val-code">${esc(selectedMember.code || 'KOP-000')}</div>
+            </div>
+            <div>
+              <div class="kta-label">NIK / ID</div>
+              <div class="kta-val">${esc(selectedMember.id)}</div>
+            </div>
+          </div>
+
+          <div class="kta-row" style="margin-top:4px">
+            <div>
+              <div class="kta-label">NO. HANDPHONE</div>
+              <div class="kta-val">${esc(selectedMember.phone)}</div>
+            </div>
+            <div>
+              <div class="kta-label">ALAMAT</div>
+              <div class="kta-val">${esc(selectedMember.address || '-')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bar -->
+      <div class="kta-footer">
+        <div class="kta-motto">&ldquo;Maju Bersama, Sejahtera Bersama&rdquo;</div>
+        <div class="kta-qr-sim">
+          <div class="qr-block"></div>
+          <div class="qr-block"></div>
+          <div class="qr-block"></div>
+          <div class="qr-block"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload / Ganti Foto Kartu Anggota -->
+    <div style="background:white; padding:12px 16px; border-radius:12px; box-shadow:var(--card-shadow); border:1px solid #e2e8f0; display:flex; align-items:center; gap:10px; max-width:440px; width:100%">
+      <label style="margin:0; font-weight:700; font-size:12px; white-space:nowrap">📷 Upload / Ganti Foto Kartu:</label>
+      <input type="file" id="ktaCardPhotoUpload" accept="image/*" style="padding:4px; font-size:11px">
+    </div>
+  </div>
+  ` : '<div class="empty">Belum ada data anggota yang dapat ditampilkan.</div>'}
+  `;
+}
+
+function printMemberCard(){
+  let cardElem = document.getElementById('printableMemberCard');
+  if(!cardElem) return;
+  let win = window.open('', '_blank');
+  win.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cetak Kartu Anggota Digital</title>
+<style>
+  body { display:grid; place-items:center; min-height:100vh; margin:0; background:#f1f5f9; font-family:'Segoe UI', sans-serif; }
+  .no-print-bar { position:fixed; top:15px; right:15px; }
+  .no-print-bar button { padding:8px 16px; background:#2563eb; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(37,99,235,0.3); }
+  @media print { .no-print-bar { display:none; } body { background:none; } }
+  ${document.querySelector('style').innerHTML}
+
+/* Exact Login Design matching reference image */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #0284c7 0%, #1e3a8a 50%, #0f172a 100%);
+  position: relative;
+  overflow-y: auto;
+  color: white;
+}
+
+.login-header-banner {
+  text-align: center;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.login-header-banner .logo-circle {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.login-header-banner h1 {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.login-header-banner p {
+  font-size: 11.5px;
+  color: #38bdf8;
+  font-weight: 700;
+  margin: 2px 0 0;
+  letter-spacing: 0.5px;
+}
+
+.login-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 28px 24px;
+  border-radius: 24px;
+  width: min(420px, 100%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(56, 189, 248, 0.25);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  text-align: center;
+}
+
+.login-card-icon {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  border-radius: 50%;
+  margin: -50px auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(37,99,235,0.5);
+  border: 2px solid rgba(255,255,255,0.4);
+  font-size: 24px;
+}
+
+.login-card h2 {
+  font-size: 21px;
+  font-weight: 900;
+  margin: 0 0 4px;
+  color: white;
+}
+
+.login-card .sub-welcome {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+.input-group-custom {
+  position: relative;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.input-group-custom input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: white;
+  font-size: 13.5px;
+  transition: all 0.2s ease;
+}
+
+.input-group-custom input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.input-group-custom input::placeholder {
+  color: #64748b;
+}
+
+.input-group-custom .input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.input-group-custom .eye-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin: 14px 0 20px;
+  color: #cbd5e1;
+}
+
+.login-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.login-options input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.login-options a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.login-options a:hover {
+  text-decoration: underline;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14.5px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.login-submit-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 24px rgba(37,99,235,0.6);
+}
+
+.login-card-footer {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #64748b;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 12px;
+}
+
+.login-features-bar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 24px;
+  z-index: 2;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+.login-features-bar div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+
+/* Extra Compact Buttons for Topbar Actions & Sidebar */
+.btn-sm, .pdf-export-btn, .perm-save-btn {
+  padding: 3px 8px !important;
+  font-size: 10.5px !important;
+  border-radius: 5px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12) !important;
+  white-space: nowrap !important;
+  gap: 4px !important;
+}
+
+.topbar {
+  background: white;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  gap: 10px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+</style>
+</head>
+<body>
+  <div class="no-print-bar"><button onclick="window.print()">🖨️ Cetak Kartu Anggota</button></div>
+  ${cardElem.outerHTML}
+  <script>window.onload = function(){ setTimeout(()=>window.print(), 300); };<\/script>
+</body>
+</html>
+  `);
+  win.document.close();
+}
+
+function exportPDFAll(){
+  if(!current || current.role !== 'admin'){
+    alert('Hanya Admin yang dapat mengunduh / mengeksport seluruh laporan PDF.');
+    return;
+  }
+  let now = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+  let kasMasukSimpanan = totalSavings();
+  let kasMasukAngsuranPokok = db.payments.reduce((s,x)=>s+num(x.principal),0);
+  let kasMasukBunga = interestTotal();
+  let totalKasMasuk = kasMasukSimpanan + kasMasukAngsuranPokok + kasMasukBunga;
+  let kasKeluarPinjaman = db.loans.reduce((s,x)=>s+num(x.amount),0);
+  let sisaSaldoKas = totalKasMasuk - kasKeluarPinjaman;
+
+  let win = window.open('', '_blank');
+  win.document.write(`
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Laporan Lengkap Koperasi Manggarai Raya - ${now}</title>
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; padding: 25px; color: #0f172a; line-height: 1.4; font-size: 12px; }
+  .header { text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 20px; }
+  .header h1 { margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; color: #1e3a8a; }
+  .header p { margin: 4px 0 0 0; color: #475569; font-size: 13px; font-weight: 600; }
+  .date-tag { font-size: 11px; color: #64748b; margin-top: 6px; }
+
+  h2 { font-size: 14px; margin-top: 24px; margin-bottom: 8px; color: #1e3a8a; border-left: 4px solid #2563eb; padding-left: 8px; text-transform: uppercase; }
+  .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .summary-card { border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; background: #f8fafc; }
+  .summary-card .lbl { font-size: 10.5px; color: #64748b; font-weight: 600; }
+  .summary-card .val { font-size: 15px; font-weight: 800; color: #0f172a; margin-top: 2px; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 11px; }
+  th, td { border: 1px solid #cbd5e1; padding: 7px 8px; text-align: left; }
+  th { background: #e2e8f0; color: #1e293b; font-weight: 700; text-transform: uppercase; font-size: 10px; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  td.num, th.num { text-align: right; }
+  .cash-flow-table td { font-size: 11.5px; }
+  .bg-green { background-color: #dcfce7 !important; font-weight: 700; }
+  .bg-red { background-color: #fee2e2 !important; font-weight: 700; }
+  .bg-blue { background-color: #dbeafe !important; font-weight: 800; font-size: 12.5px; }
+
+  .footer { margin-top: 40px; display: flex; justify-content: space-between; text-align: center; font-size: 11px; }
+  .sig-box { width: 200px; }
+  .sig-space { height: 50px; }
+
+  @media print { body { padding: 0; } .no-print { display: none; } }
+
+/* Exact Login Design matching reference image */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #0284c7 0%, #1e3a8a 50%, #0f172a 100%);
+  position: relative;
+  overflow-y: auto;
+  color: white;
+}
+
+.login-header-banner {
+  text-align: center;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.login-header-banner .logo-circle {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.login-header-banner h1 {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.login-header-banner p {
+  font-size: 11.5px;
+  color: #38bdf8;
+  font-weight: 700;
+  margin: 2px 0 0;
+  letter-spacing: 0.5px;
+}
+
+.login-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 28px 24px;
+  border-radius: 24px;
+  width: min(420px, 100%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(56, 189, 248, 0.25);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  text-align: center;
+}
+
+.login-card-icon {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  border-radius: 50%;
+  margin: -50px auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(37,99,235,0.5);
+  border: 2px solid rgba(255,255,255,0.4);
+  font-size: 24px;
+}
+
+.login-card h2 {
+  font-size: 21px;
+  font-weight: 900;
+  margin: 0 0 4px;
+  color: white;
+}
+
+.login-card .sub-welcome {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+.input-group-custom {
+  position: relative;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.input-group-custom input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: white;
+  font-size: 13.5px;
+  transition: all 0.2s ease;
+}
+
+.input-group-custom input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.input-group-custom input::placeholder {
+  color: #64748b;
+}
+
+.input-group-custom .input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.input-group-custom .eye-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin: 14px 0 20px;
+  color: #cbd5e1;
+}
+
+.login-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.login-options input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.login-options a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.login-options a:hover {
+  text-decoration: underline;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14.5px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.login-submit-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 24px rgba(37,99,235,0.6);
+}
+
+.login-card-footer {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #64748b;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 12px;
+}
+
+.login-features-bar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 24px;
+  z-index: 2;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+.login-features-bar div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+
+/* Extra Compact Buttons for Topbar Actions & Sidebar */
+.btn-sm, .pdf-export-btn, .perm-save-btn {
+  padding: 3px 8px !important;
+  font-size: 10.5px !important;
+  border-radius: 5px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12) !important;
+  white-space: nowrap !important;
+  gap: 4px !important;
+}
+
+.topbar {
+  background: white;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  gap: 10px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+</style>
+</head>
+<body>
+  <div class="no-print" style="margin-bottom:20px; text-align:right">
+    <button onclick="window.print()" style="padding:8px 16px; background:#2563eb; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer">🖨️ Cetak / Simpan sebagai PDF</button>
+  </div>
+
+  <div class="header">
+    <h1>KOPERASI MANGGARAI RAYA</h1>
+    <p>LAPORAN KEUANGAN & DATA OPERASIONAL LENGKAP</p>
+    <div class="date-tag">Dicetak pada: ${now} | Pengelola: ${esc(current.name)} (Admin)</div>
+  </div>
+
+  <h2>1. Ringkasan Keuangan & Operasional</h2>
+  <div class="summary-grid">
+    <div class="summary-card"><div class="lbl">Total Anggota</div><div class="val">${db.members.length} Orang</div></div>
+    <div class="summary-card"><div class="lbl">Total Dana Simpanan (Pokok + Wajib)</div><div class="val">${rupiah(totalSavings())}</div></div>
+    <div class="summary-card"><div class="lbl">Total Pinjaman Berjalan (Sisa Pokok)</div><div class="val">${rupiah(outstanding())}</div></div>
+    <div class="summary-card"><div class="lbl">Sisa Saldo Kas (Tidak Dipinjam)</div><div class="val">${rupiah(cashBalance())}</div></div>
+    <div class="summary-card"><div class="lbl">Bunga Berjalan</div><div class="val">${rupiah(runningInterest())}</div></div>
+    <div class="summary-card"><div class="lbl">Total Bunga Diterima</div><div class="val">${rupiah(interestTotal())}</div></div>
+  </div>
+
+  <h2>2. Laporan Dana Masuk & Dana Keluar (Arus Kas)</h2>
+  <table class="cash-flow-table">
+    <thead>
+      <tr>
+        <th>Keterangan Arus Kas</th>
+        <th class="num">Dana Masuk (Rp)</th>
+        <th class="num">Dana Keluar (Rp)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Simpanan Pokok & Wajib Anggota</td>
+        <td class="num">${rupiah(kasMasukSimpanan)}</td>
+        <td class="num">-</td>
+      </tr>
+      <tr>
+        <td>Pengembalian / Angsuran Pokok Pinjaman</td>
+        <td class="num">${rupiah(kasMasukAngsuranPokok)}</td>
+        <td class="num">-</td>
+      </tr>
+      <tr>
+        <td>Pembayaran Bunga Pinjaman</td>
+        <td class="num">${rupiah(kasMasukBunga)}</td>
+        <td class="num">-</td>
+      </tr>
+      <tr class="bg-green">
+        <td>TOTAL DANA MASUK (KAS MASUK)</td>
+        <td class="num">${rupiah(totalKasMasuk)}</td>
+        <td class="num">-</td>
+      </tr>
+      <tr>
+        <td>Pencairan Pinjaman (Luar & Anggota)</td>
+        <td class="num">-</td>
+        <td class="num">${rupiah(kasKeluarPinjaman)}</td>
+      </tr>
+      <tr class="bg-red">
+        <td>TOTAL DANA KELUAR (KAS KELUAR)</td>
+        <td class="num">-</td>
+        <td class="num">${rupiah(kasKeluarPinjaman)}</td>
+      </tr>
+      <tr class="bg-blue">
+        <td>SISA SALDO KAS KOPERASI (NETTO)</td>
+        <td class="num" colspan="2" style="text-align:right">${rupiah(sisaSaldoKas)}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. Data Seluruh Anggota (${db.members.length})</h2>
+  ${db.members.length ? `
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px">No.</th>
+        <th>Kode</th>
+        <th>Nama Lengkap</th>
+        <th>ID / NIK</th>
+        <th>No. HP</th>
+        <th>Alamat</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${db.members.map((m,i)=>`
+        <tr>
+          <td>${i+1}</td>
+          <td><b>${esc(m.code||('KOP-'+(i+1)))}</b></td>
+          <td><b>${esc(m.name)}</b></td>
+          <td>${esc(m.id)}</td>
+          <td>${esc(m.phone)}</td>
+          <td>${esc(m.address)}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+  ` : '<p style="color:#64748b; font-style:italic">Belum ada data anggota.</p>'}
+
+  <h2>4. Data Simpanan Anggota (${db.savings.length})</h2>
+  ${db.savings.length ? `
+  <table>
+    <thead>
+      <tr>
+        <th>Tanggal</th>
+        <th>Nama Anggota</th>
+        <th>Jenis Simpanan</th>
+        <th class="num">Nominal (Rp)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${db.savings.map(s=>`
+        <tr>
+          <td>${s.date}</td>
+          <td><b>${esc(s.memberName)}</b></td>
+          <td>${s.type}</td>
+          <td class="num"><b>${rupiah(s.amount)}</b></td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+  ` : '<p style="color:#64748b; font-style:italic">Belum ada riwayat simpanan.</p>'}
+
+  <h2>5. Data Seluruh Pinjaman (${db.loans.length})</h2>
+  ${db.loans.length ? `
+  <table>
+    <thead>
+      <tr>
+        <th>Tanggal</th>
+        <th>Nama Peminjam</th>
+        <th>Status</th>
+        <th class="num">Pokok (Rp)</th>
+        <th class="num">Total Bunga (Rp)</th>
+        <th class="num">Sisa Pokok (Rp)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${db.loans.map(l=>`
+        <tr>
+          <td>${l.date}</td>
+          <td><b>${esc(l.memberName)}</b></td>
+          <td>${l.isExternal?'Luar Anggota':'Anggota'}</td>
+          <td class="num">${rupiah(l.amount)}</td>
+          <td class="num">${rupiah(l.interest)}</td>
+          <td class="num"><b>${rupiah(num(l.amount)-num(l.paidPrincipal))}</b></td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+  ` : '<p style="color:#64748b; font-style:italic">Belum ada data pinjaman.</p>'}
+
+  <h2>6. Riwayat Angsuran & Pembayaran Bunga (${db.payments.length})</h2>
+  ${db.payments.length ? `
+  <table>
+    <thead>
+      <tr>
+        <th>Tanggal</th>
+        <th>Nama Peminjam</th>
+        <th class="num">Angsuran Pokok (Rp)</th>
+        <th class="num">Bayar Bunga (Rp)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${db.payments.map(p=>`
+        <tr>
+          <td>${p.date}</td>
+          <td><b>${esc(p.memberName)}</b></td>
+          <td class="num">${rupiah(p.principal)}</td>
+          <td class="num">${rupiah(p.interest)}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+  ` : '<p style="color:#64748b; font-style:italic">Belum ada riwayat angsuran.</p>'}
+
+  <div class="footer">
+    <div class="sig-box">
+      <p>Mengetahui,<br><b>Ketua Koperasi</b></p>
+      <div class="sig-space"></div>
+      <p>( _______________________ )</p>
+    </div>
+    <div class="sig-box">
+      <p>Dibuat Oleh,<br><b>Bendahara / Admin</b></p>
+      <div class="sig-space"></div>
+      <p><b>${esc(current.name)}</b></p>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(() => { window.print(); }, 500);
+    };
+  <\/script>
+</body>
+</html>
+  `);
+  win.document.close();
+}
+
+document.getElementById('topbarExportBtn').onclick = exportDataPermanently;
+document.getElementById('sidebarExportBtn').onclick = exportDataPermanently;
+document.getElementById('topbarExportPdfBtn').onclick = exportPDFAll;
+document.getElementById('sidebarExportPdfBtn').onclick = exportPDFAll;
+
+document.getElementById('toForgotBtn').onclick = () => {
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('forgotView').classList.remove('hidden');
+  document.getElementById('forgotResult').classList.add('hidden');
+  document.getElementById('forgotForm').reset();
+};
+document.getElementById('toLoginBtn').onclick = () => {
+  document.getElementById('forgotView').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+};
+
+function checkForgotAuto() {
+  let fId = document.getElementById('forgotId').value.trim().toLowerCase();
+  let fPhone = document.getElementById('forgotPhone').value.trim();
+  let resBox = document.getElementById('forgotResult');
+  
+  if(!fId || !fPhone) {
+    resBox.classList.add('hidden');
+    return;
+  }
+
+  let member = db.members.find(m => 
+    (m.code && m.code.toLowerCase() === fId || m.id.toLowerCase() === fId) && 
+    (m.phone && m.phone.trim() === fPhone)
+  );
+
+  if(!member){
+    resBox.className = 'notice';
+    resBox.style.background = '#fee2e2';
+    resBox.style.color = '#991b1b';
+    resBox.style.borderColor = '#fca5a5';
+    resBox.innerHTML = '<b>Data tidak cocok!</b> Periksa kembali Kode Anggota / NIK dan No. HP Anda.';
+    resBox.classList.remove('hidden');
+    return;
+  }
+
+  let userAccount = db.users.find(u => u.name === member.name && u.role === 'member');
+  if(!userAccount){
+    resBox.className = 'notice';
+    resBox.style.background = '#fef3c7';
+    resBox.style.color = '#92400e';
+    resBox.style.borderColor = '#fde68a';
+    resBox.innerHTML = `<b>Anggota Ditemukan:</b> Halo <b>${esc(member.name)}</b>. Akun login belum dibuatkan oleh Admin.`;
+    resBox.classList.remove('hidden');
+    return;
+  }
+
+  resBox.className = 'notice';
+  resBox.style.background = '#dcfce7';
+  resBox.style.color = '#166534';
+  resBox.style.borderColor = '#86efac';
+  resBox.innerHTML = `<b>Data Anggota Valid!</b><br>
+    Nama: <b>${esc(member.name)}</b><br>
+    Username: <b style="color:#1e40af">${esc(userAccount.username)}</b><br>
+    Password: <b style="color:#1e40af">${esc(userAccount.password)}</b>`;
+  resBox.classList.remove('hidden');
+}
+
+document.getElementById('forgotForm').onsubmit = e => {
+  e.preventDefault();
+  checkForgotAuto();
+};
+
+document.getElementById('loginForm').onsubmit=e=>{
+  e.preventDefault();
+  let enteredUser = loginUser.value.trim();
+  let enteredPass = loginPass.value;
+  let u=db.users.find(x=>x.username.toLowerCase()===enteredUser.toLowerCase()&&x.password===enteredPass);
+  if(!u){alert('Username atau password salah.');return}
+  current=u;
+  loginView.classList.add('hidden');
+  appView.classList.remove('hidden');
+  who.textContent=u.name+' ('+(u.role==='admin'?'Admin':'Anggota')+')';
+  
+  let isAdmin = (u.role === 'admin');
+  let setBtn = document.getElementById('navSettings');
+  if(setBtn) setBtn.style.display = isAdmin ? 'block' : 'none';
+  let topExp = document.getElementById('topbarExportBtn');
+  if(topExp) topExp.style.display = isAdmin ? 'inline-flex' : 'none';
+  let sideExp = document.getElementById('sidebarExportWrap');
+  if(sideExp) sideExp.style.display = isAdmin ? 'block' : 'none';
+
+  go('dashboard');
+};
+
+document.getElementById('logout').onclick=()=>{current=null;appView.classList.add('hidden');loginView.classList.remove('hidden');loginPass.value=''};
+document.getElementById('nav').onclick=e=>{let b=e.target.closest('button[data-page]');if(b)go(b.dataset.page)};
+
+function render(){
+  pageTitle.textContent=({dashboard:'Dashboard Koperasi',members:'Data Anggota',cards:'Kartu Anggota Digital (KTA)',savings:'Simpanan Pokok dan Wajib',loans:'Data Pinjaman',profile:'Profil Koperasi',settings:'Pengaturan Akun'})[page];
+  let c=document.getElementById('content');
+  if(page==='dashboard')c.innerHTML=dashboard();
+  if(page==='members')c.innerHTML=members();
+  if(page==='cards')c.innerHTML=cardsView();
+  if(page==='savings')c.innerHTML=savings();
+  if(page==='loans')c.innerHTML=loans();
+  if(page==='profile')c.innerHTML=profile();
+  if(page==='settings' && current && current.role==='admin')c.innerHTML=settings();
+  bind();
+}
+
+function dashboard(){return `<div class="pagehead"><div><h2>Ringkasan Koperasi</h2><div class="muted">Perhitungan otomatis data sistem koperasi.</div></div></div><div class="cards">
+${stat('Total Anggota',db.members.length+' orang','♙','blue')}${stat('Total Dana Simpanan',rupiah(totalSavings()),'＋','green')}${stat('Total Pinjaman Berjalan',rupiah(outstanding()),'⇄','gold')}${stat('Sisa Dana Tidak Dipinjam',rupiah(cashBalance()),'◉','cyan')}${stat('Bunga Berjalan',rupiah(runningInterest()),'◷','purple')}${stat('Total Bunga Diterima',rupiah(interestTotal()),'％','red')}${stat('Total Dana Keseluruhan',rupiah(totalFunds()),'▣','blue')}</div><div class="notice">Total Dana Keseluruhan = Simpanan Pokok + Simpanan Wajib + bunga diterima. Sisa Dana Tidak Dipinjam dihitung dari saldo kas koperasi.</div><div class="panel border-blue"><h3>Aktivitas Singkat</h3><p class="muted">Jumlah anggota: ${db.members.length} · Simpanan: ${db.savings.length} · Pinjaman: ${db.loans.length} · Pembayaran: ${db.payments.length}</p></div>`}
+function stat(label,value,icon,color){return `<div class="stat ${color}"><span class="icon">${icon}</span><div class="label">${label}</div><div class="value">${value}</div></div>`}
+
+function members(){
+  let isAdmin = current && current.role==='admin';
+  let isEdit = editingMemberIndex >= 0;
+  let mEdit = isEdit ? db.members[editingMemberIndex] : null;
+
+  return `<div class="pagehead"><div><h2>Data Anggota</h2><div class="muted">Kelola data dan foto identitas anggota koperasi</div></div></div>
+${isAdmin?`<div class="panel border-green">
+  <h3>${isEdit ? '✏️ Edit Data Anggota' : '➕ Tambah Anggota Baru'}</h3>
+  <form id="memberForm" class="gridform">
+    <div><label>Kode Anggota</label><input name="code" required placeholder="Contoh: KOP-001" value="${isEdit ? esc(mEdit.code) : ''}"></div>
+    <div><label>Nama Lengkap</label><input name="name" required value="${isEdit ? esc(mEdit.name) : ''}"></div>
+    <div><label>ID / NIK</label><input name="id" required value="${isEdit ? esc(mEdit.id) : ''}"></div>
+    <div><label>No. HP</label><input name="phone" required value="${isEdit ? esc(mEdit.phone) : ''}"></div>
+    <div><label>Alamat</label><input name="address" value="${isEdit ? esc(mEdit.address) : ''}"></div>
+    <div><label>Foto Anggota (Opsional)</label><input type="file" id="memberPhotoInput" accept="image/*" style="padding:5px"></div>
+    <div style="grid-column: span 2; display:flex; gap:8px">
+      <button type="submit" class="success btn-sm">${isEdit ? 'Update Data Anggota' : 'Tambah Anggota'}</button>
+      ${isEdit ? `<button type="button" onclick="editingMemberIndex=-1; render();" class="secondary btn-sm">Batal Edit</button>` : ''}
+    </div>
+  </form>
+</div>`:''}
+<div class="panel border-green"><h3>Daftar Anggota (${db.members.length})</h3>${db.members.length?`<div class="tablewrap"><table><thead><tr><th>Foto</th><th>Kode</th><th>Nama</th><th>ID / NIK</th><th>No. HP</th><th>Alamat</th>${isAdmin?'<th style="text-align:center">Aksi (Edit / Hapus)</th>':''}</tr></thead><tbody>${db.members.map((m,i)=>`<tr>
+<td>${m.photo ? `<img src="${m.photo}" class="member-thumb">` : `<div class="member-thumb-icon">${esc(m.name.charAt(0).toUpperCase())}</div>`}</td>
+<td><b style="color:var(--blue)">${esc(m.code||('KOP-'+(i+1)))}</b></td>
+<td><b>${esc(m.name)}</b></td>
+<td>${esc(m.id)}</td>
+<td>${esc(m.phone)}</td>
+<td>${esc(m.address)}</td>
+${isAdmin?`<td style="text-align:center">
+  <button class="btn-sm" data-editmember="${i}" style="margin-right:4px">✏️ Edit</button>
+  <button class="danger btn-sm" data-delmember="${i}">🗑️ Hapus</button>
+</td>`:''}
+</tr>`).join('')}</tbody></table></div>`:'<div class="empty">Belum ada anggota.</div>'}</div>`}
+
+function savings(){
+  let isAdmin = current && current.role==='admin';
+  let isEdit = editingSavingIndex >= 0;
+  let sEdit = isEdit ? db.savings[editingSavingIndex] : null;
+
+  return `<div class="pagehead"><div><h2>Simpanan Pokok & Wajib</h2><div class="muted">Pencatatan dan riwayat simpanan anggota</div></div></div>
+${isAdmin?`<div class="panel border-cyan">
+  <h3>${isEdit ? '✏️ Edit Transaksi Simpanan' : '➕ Catat Simpanan Baru'}</h3>
+  <form id="savingForm" class="gridform">
+    <div><label>Nama Anggota</label><select name="member" required>${memberOptions(isEdit ? sEdit.member : '')}</select></div>
+    <div><label>Jenis Simpanan</label><select name="type"><option ${isEdit && sEdit.type==='Simpanan Pokok'?'selected':''}>Simpanan Pokok</option><option ${isEdit && sEdit.type==='Simpanan Wajib'?'selected':''}>Simpanan Wajib</option></select></div>
+    <div><label>Jumlah (Rp)</label><input name="amount" type="number" min="1" required value="${isEdit ? sEdit.amount : ''}"></div>
+    <div><label>Tanggal</label><input name="date" type="date" required value="${isEdit ? sEdit.date : new Date().toISOString().slice(0,10)}"></div>
+    <div style="grid-column: span 2; display:flex; gap:8px">
+      <button class="success btn-sm">${isEdit ? 'Update Simpanan' : 'Simpan Transaksi'}</button>
+      ${isEdit ? `<button type="button" onclick="editingSavingIndex=-1; render();" class="secondary btn-sm">Batal</button>` : ''}
+    </div>
+  </form>
+</div>`:'' }
+<div class="cards">${stat('Total Simpanan',rupiah(totalSavings()),'＋','green')}${stat('Simpanan Pokok',rupiah(db.savings.filter(x=>x.type==='Simpanan Pokok').reduce((s,x)=>s+x.amount,0)),'●','blue')}${stat('Simpanan Wajib',rupiah(db.savings.filter(x=>x.type==='Simpanan Wajib').reduce((s,x)=>s+x.amount,0)),'●','gold')}</div>
+<div class="panel border-cyan"><h3>Riwayat Simpanan</h3>${renderSavingsTable()}</div>`}
+
+function renderSavingsTable(){
+  let isAdmin = current && current.role==='admin';
+  if(!db.savings.length) return '<div class="empty">Belum ada simpanan.</div>';
+  return `<div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Nama Anggota</th><th>Jenis</th><th class="num">Nominal (Rp)</th>${isAdmin?'<th style="text-align:center">Aksi</th>':''}</tr></thead><tbody>${db.savings.map((x,i)=>`<tr><td>${x.date}</td><td><b>${esc(x.memberName)}</b></td><td>${x.type}</td><td class="num"><b>${rupiah(x.amount)}</b></td>${isAdmin?`<td style="text-align:center"><button class="btn-sm" data-editsaving="${i}">✏️ Edit</button> <button class="danger btn-sm" data-delsaving="${i}">🗑️ Hapus</button></td>`:''}</tr>`).join('')}</tbody></table></div>`;
+}
+
+function memberOptions(selectedId=''){
+  return db.members.length?db.members.map(m=>`<option value="${esc(m.id)}" ${selectedId===m.id?'selected':''}>[${esc(m.code||'KOP')}] ${esc(m.name)} (${esc(m.id)})</option>`).join(''):'<option value="">Tambahkan anggota dahulu</option>';
+}
+
+function activeLoanOptions(){
+  let activeLoans=db.loans.filter(l=>(num(l.amount)-num(l.paidPrincipal)>0)||(num(l.interest)-num(l.paidInterest)>0));
+  return activeLoans.length?activeLoans.map((l)=>{
+    let originalIndex=db.loans.indexOf(l);
+    let tag = l.isExternal ? ' (Non-Anggota)' : '';
+    return `<option value="${originalIndex}">${esc(l.memberName)}${tag} - Sisa: ${rupiah(l.amount-l.paidPrincipal)}</option>`;
+  }).join(''):'<option value="">Tidak ada pinjaman aktif</option>';
+}
+
+function loans(){
+  let isAdmin = current && current.role==='admin';
+  let activeLoans=db.loans.filter(l=>(num(l.amount)-num(l.paidPrincipal)>0)||(num(l.interest)-num(l.paidInterest)>0));
+  let isEditLoan = editingLoanIndex >= 0;
+  let lEdit = isEditLoan ? db.loans[editingLoanIndex] : null;
+
+  return `<div class="pagehead"><div><h2>Data Pinjaman & Pembiayaan</h2><div class="muted">Pengelolaan pencairan pinjaman dan angsuran</div></div></div>
+${isAdmin?`
+<div class="panel border-purple">
+  <h3>${isEditLoan ? '✏️ Edit Data Pinjaman' : '➕ Catat Pinjaman Baru'}</h3>
+  <label class="toggle-btn" style="font-size:11.5px; font-weight:700; margin-bottom:8px; display:inline-block"><input type="checkbox" id="extLoanCheck" ${isEditLoan && lEdit.isExternal ? 'checked' : ''}> Pinjaman Luar Anggota (Non-Anggota)</label>
+  <form id="loanForm" class="gridform">
+    <div id="memberSelectBox" class="${isEditLoan && lEdit.isExternal ? 'hidden' : ''}"><label>Nama Anggota</label><select name="member">${memberOptions(isEditLoan ? lEdit.member : '')}</select></div>
+    <div id="externalNameBox" class="${isEditLoan && lEdit.isExternal ? '' : 'hidden'}"><label>Nama Peminjam Luar</label><input name="externalName" placeholder="Masukkan nama peminjam" value="${isEditLoan ? esc(lEdit.memberName) : ''}"></div>
+    <div><label>Pokok Pinjaman (Rp)</label><input name="amount" type="number" min="1" required value="${isEditLoan ? lEdit.amount : ''}"></div>
+    <div><label>Total Bunga (Rp)</label><input name="interest" type="number" min="0" required value="${isEditLoan ? lEdit.interest : '0'}"></div>
+    <div><label>Tanggal Pinjam</label><input name="date" type="date" required value="${isEditLoan ? lEdit.date : new Date().toISOString().slice(0,10)}"></div>
+    <div style="grid-column: span 2; display:flex; gap:8px">
+      <button class="btn-sm">${isEditLoan ? 'Update Pinjaman' : 'Catat Pinjaman'}</button>
+      ${isEditLoan ? `<button type="button" onclick="editingLoanIndex=-1; render();" class="secondary btn-sm">Batal</button>` : ''}
+    </div>
+  </form>
+</div>
+
+<div class="panel border-green"><h3>Form Pembayaran / Angsuran Pinjaman</h3>
+<form id="paymentForm" class="gridform">
+<div style="grid-column: span 2"><label>Pilih Peminjam (Pinjaman Aktif)</label><select id="payLoanSelect" required>${activeLoanOptions()}</select></div>
+<div><label>Bayar Pinjaman (Rp)</label><input name="principal" type="number" min="0" required value="0"></div>
+<div><label>Bayar Bunga (Rp)</label><input name="interest" type="number" min="0" required value="0"></div>
+<button type="submit" class="success btn-sm" style="grid-column: span 2">Simpan Pembayaran</button>
+</form>
+<div id="paymentInfo" class="notice" style="margin-top:10px">Silakan pilih pinjaman aktif untuk melihat sisa pinjaman & bunga berjalan.</div>
+</div>
+`:''}
+
+<div class="panel border-purple"><h3>Daftar Pinjaman Aktif</h3>${activeLoans.length?`<div class="tablewrap"><table>
+<thead><tr><th>Nama Peminjam</th><th>Status</th><th>Tgl</th><th class="num">Pokok</th><th class="num">Bunga</th><th class="num">Bunga Berjalan</th><th class="num">Sisa Pokok</th>${isAdmin?'<th style="text-align:center">Aksi</th>':''}</tr></thead>
+<tbody>${activeLoans.map((l)=>{
+  let realIdx = db.loans.indexOf(l);
+  return `<tr><td><b>${esc(l.memberName)}</b></td><td><small>${l.isExternal?'Luar Anggota':'Anggota'}</small></td><td>${l.date}</td><td class="num">${rupiah(l.amount)}</td><td class="num">${rupiah(l.interest)}</td><td class="num">${rupiah(Math.max(0,num(l.interest)-num(l.paidInterest)))}</td><td class="num"><b>${rupiah(l.amount-l.paidPrincipal)}</b></td>${isAdmin?`<td style="text-align:center"><button class="btn-sm" data-editloan="${realIdx}">✏️ Edit</button> <button class="danger btn-sm" data-delloan="${realIdx}">🗑️ Hapus</button></td>`:''}</tr>`;
+}).join('')}</tbody></table></div>`:'<div class="empty">Belum ada pinjaman aktif.</div>'}</div>
+
+<div class="panel border-purple"><h3>Riwayat Angsuran & Pembayaran</h3>${renderPaymentTable()}</div>
+`;
+}
+
+function renderPaymentTable(){
+  let isAdmin = current && current.role==='admin';
+  if(!db.payments.length) return '<div class="empty">Belum ada riwayat angsuran.</div>';
+  return `<div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Nama Peminjam</th><th class="num">Bayar Pinjaman</th><th class="num">Bunga Diterima</th>${isAdmin?'<th style="text-align:center">Aksi</th>':''}</tr></thead><tbody>${db.payments.map((p,i)=>`<tr><td>${p.date}</td><td><b>${esc(p.memberName)}</b></td><td class="num">${rupiah(p.principal)}</td><td class="num">${rupiah(p.interest)}</td>${isAdmin?`<td style="text-align:center"><button class="danger btn-sm" data-delpayment="${i}">🗑️ Hapus</button></td>`:''}</tr>`).join('')}</tbody></table></div>`;
+}
+
+function profile(){return `<div class="panel profile border-blue"><h2>KOPERASI MANGGARAI RAYA</h2><p><b>Nama Lembaga:</b> Koperasi Manggarai Raya<br><b>Jenis:</b> Koperasi Simpan Pinjam<br><b>Pengelola Sistem:</b> ${esc(current.name)} (${current.role==='admin'?'Admin':'Anggota'})<br><b>Fungsi Utama:</b> Manajerial keanggotaan, penerbitan Kartu Anggota Digital (KTA), pembukuan simpanan pokok/wajib, pengawasan pencairan pinjaman, angsuran bunga, serta ekspor laporan keuangan.</p></div>`}
+
+function settings(){
+  return `
+<div class="panel border-red"><h3>Tambah / Buat Akun Login Anggota</h3>
+<form id="addUserForm" class="gridform">
+<div><label>Pilih Anggota</label><select name="memberId" required>${memberOptions()}</select></div>
+<div><label>Username Login</label><input name="username" required placeholder="Buat username"></div>
+<div><label>Password Login</label><input name="password" type="password" required placeholder="Minimal 6 karakter"></div>
+<button type="submit" class="btn-sm">Buatkan Akun Anggota</button>
+</form></div>
+
+<div class="panel border-purple"><h3>Daftar Akun Pengguna Sistem</h3>
+${renderUsersTable()}
+</div>
+
+<div class="panel border-green"><h3>Import / Restore Data dari File Backup JSON</h3>
+<div style="display:flex;gap:10px;align-items:center">
+  <input type="file" id="importJsonInput" accept=".json" style="max-width:280px; font-size:12px">
+  <button id="importBtn" class="success btn-sm">Restore Database</button>
+</div>
+</div>
+
+<div class="panel border-red"><h3>Ubah Admin Username & Password Anda</h3>
+<form id="accountForm" class="gridform"><div><label>Username Baru</label><input name="username" required value="${esc(current.username)}"></div><div><label>Nama Pengguna</label><input name="name" required value="${esc(current.name)}"></div><div><label>Password Lama</label><input name="old" type="password" required></div><div><label>Password Baru</label><input name="pass" type="password" minlength="8" placeholder="Min 8 karakter" required></div><button class="danger btn-sm" style="grid-column: span 2">Perbarui Admin</button></form></div>`;
+}
+
+function renderUsersTable(){
+  if(!db.users.length) return '<div class="empty">Belum ada akun.</div>';
+  return `<div class="tablewrap"><table><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Password</th><th>Aksi</th></tr></thead><tbody>
+  ${db.users.map((u, i)=>`
+    <tr>
+      <td><b>${esc(u.name)}</b></td>
+      <td>${esc(u.username)}</td>
+      <td><span style="padding:2px 6px; border-radius:4px; background:${u.role==='admin'?'#dbeafe':'#f3f4f6'}; color:${u.role==='admin'?'#1e40af':'#374151'}">${u.role}</span></td>
+      <td><code>${esc(u.password)}</code></td>
+      <td>${u.role==='admin' ? '<small class="muted">Utama (Admin)</small>' : `<button class="danger btn-sm" data-deluser="${i}">🗑️ Hapus Akun</button>`}</td>
+    </tr>
+  `).join('')}
+  </tbody></table></div>`;
+}
+
+function bind(){
+let mf=document.getElementById('memberForm');
+if(mf)mf.onsubmit=e=>{
+  e.preventDefault();
+  let f=new FormData(mf),id=f.get('id').trim(),name=f.get('name').trim(),code=f.get('code').trim();
+  let photoInput = document.getElementById('memberPhotoInput');
+
+  let processSaveMember = (photoBase64) => {
+    if(editingMemberIndex >= 0){
+      let m = db.members[editingMemberIndex];
+      m.code = code;
+      m.name = name;
+      m.id = id;
+      m.phone = f.get('phone');
+      m.address = f.get('address');
+      if(photoBase64) m.photo = photoBase64;
+      editingMemberIndex = -1;
+    } else {
+      if(db.members.some(m=>m.id===id)) {alert('ID / NIK anggota sudah terdaftar'); return;}
+      if(db.members.some(m=>m.code && m.code.toLowerCase()===code.toLowerCase())) {alert('Kode Anggota sudah digunakan'); return;}
+      db.members.push({code,id,name,phone:f.get('phone'),address:f.get('address'), photo: photoBase64||''});
+    }
+    save();
+    render();
+  };
+
+  if(photoInput && photoInput.files && photoInput.files[0]){
+    let reader = new FileReader();
+    reader.onload = function(evt){ processSaveMember(evt.target.result); };
+    reader.readAsDataURL(photoInput.files[0]);
+  } else {
+    let existingPhoto = editingMemberIndex >= 0 ? db.members[editingMemberIndex].photo : '';
+    processSaveMember(existingPhoto);
+  }
+};
+
+let ktaPhotoInput = document.getElementById('ktaCardPhotoUpload');
+if(ktaPhotoInput){
+  ktaPhotoInput.onchange = function(){
+    if(!this.files || !this.files[0]) return;
+    let selectedId = window.selectedCardMemberId || (db.members[0] ? db.members[0].id : null);
+    let m = db.members.find(x=>x.id===selectedId) || db.members[0];
+    if(!m) return alert('Pilih anggota terlebih dahulu');
+    let reader = new FileReader();
+    reader.onload = function(evt){
+      m.photo = evt.target.result;
+      save();
+      render();
+    };
+    reader.readAsDataURL(this.files[0]);
+  };
+}
+
+document.querySelectorAll('[data-editmember]').forEach(b=>b.onclick=()=>{
+  editingMemberIndex = +b.dataset.editmember;
+  render();
+});
+document.querySelectorAll('[data-delmember]').forEach(b=>b.onclick=()=>{
+  let i=+b.dataset.delmember;
+  if(confirm('Hapus anggota ini?')){db.members.splice(i,1); save(); render();}
+});
+
+document.querySelectorAll('[data-editsaving]').forEach(b=>b.onclick=()=>{
+  editingSavingIndex = +b.dataset.editsaving;
+  render();
+});
+document.querySelectorAll('[data-delsaving]').forEach(b=>b.onclick=()=>{
+  let i=+b.dataset.delsaving;
+  if(confirm('Hapus transaksi simpanan ini?')){db.savings.splice(i,1); save(); render();}
+});
+
+document.querySelectorAll('[data-editloan]').forEach(b=>b.onclick=()=>{
+  editingLoanIndex = +b.dataset.editloan;
+  render();
+});
+document.querySelectorAll('[data-delloan]').forEach(b=>b.onclick=()=>{
+  let i=+b.dataset.delloan;
+  if(confirm('Hapus data pinjaman ini?')){db.loans.splice(i,1); save(); render();}
+});
+document.querySelectorAll('[data-delpayment]').forEach(b=>b.onclick=()=>{
+  let i=+b.dataset.delpayment;
+  if(confirm('Hapus riwayat angsuran ini?')){db.payments.splice(i,1); save(); render();}
+});
+
+document.querySelectorAll('[data-deluser]').forEach(b=>b.onclick=()=>{
+  let i=+b.dataset.deluser;
+  if(confirm('Hapus akun login ini?')){db.users.splice(i,1);save();render()}
+});
+
+let sf=document.getElementById('savingForm');
+if(sf)sf.onsubmit=e=>{
+  e.preventDefault();
+  let f=new FormData(sf),m=db.members.find(x=>x.id===f.get('member'));
+  if(!m)return alert('Tambahkan anggota dahulu');
+  
+  if(editingSavingIndex >= 0){
+    let s = db.savings[editingSavingIndex];
+    s.member = m.id;
+    s.memberName = m.name;
+    s.type = f.get('type');
+    s.amount = num(f.get('amount'));
+    s.date = f.get('date');
+    editingSavingIndex = -1;
+  } else {
+    db.savings.push({member:m.id,memberName:m.name,type:f.get('type'),amount:num(f.get('amount')),date:f.get('date')});
+  }
+  save();
+  render();
+};
+
+let addUserForm = document.getElementById('addUserForm');
+if(addUserForm){
+  addUserForm.onsubmit = e => {
+    e.preventDefault();
+    let f = new FormData(addUserForm);
+    let memId = f.get('memberId');
+    let m = db.members.find(x=>x.id===memId);
+    if(!m) return alert('Pilih anggota yang valid');
+    let uname = f.get('username').trim();
+    let upass = f.get('password');
+    if(db.users.some(u=>u.username.toLowerCase()===uname.toLowerCase())) return alert('Username sudah digunakan oleh akun lain!');
+    
+    db.users.push({
+      username: uname,
+      password: upass,
+      name: m.name,
+      role: 'member'
+    });
+    save();
+    render();
+  };
+}
+
+let importBtn = document.getElementById('importBtn');
+if(importBtn){
+  importBtn.onclick = () => {
+    let fileInput = document.getElementById('importJsonInput');
+    if(!fileInput.files.length) return alert('Pilih file backup JSON terlebih dahulu');
+    let reader = new FileReader();
+    reader.onload = e => {
+      try {
+        let imported = JSON.parse(e.target.result);
+        if(imported && imported.users && imported.members){
+          db = imported;
+          save();
+          alert('Database berhasil di-restore dari file backup!');
+          render();
+        } else {
+          alert('Format file JSON backup tidak valid');
+        }
+      } catch(err) {
+        alert('Gagal membaca file JSON: ' + err.message);
+      }
+    };
+    reader.readAsText(fileInput.files[0]);
+  };
+}
+
+let extChk = document.getElementById('extLoanCheck');
+if(extChk){
+  extChk.onchange = function(){
+    let mBox = document.getElementById('memberSelectBox');
+    let eBox = document.getElementById('externalNameBox');
+    if(this.checked){
+      mBox.classList.add('hidden');
+      eBox.classList.remove('hidden');
+    } else {
+      mBox.classList.remove('hidden');
+      eBox.classList.add('hidden');
+    }
+  }
+}
+
+let lf=document.getElementById('loanForm');
+if(lf)lf.onsubmit=e=>{
+  e.preventDefault();
+  let f=new FormData(lf);
+  let isExt = extChk && extChk.checked;
+  let memberId = '', memberName = '';
+
+  if(isExt){
+    memberName = f.get('externalName').trim();
+    if(!memberName) return alert('Masukkan nama peminjam luar!');
+    memberId = 'EXT_' + Date.now();
+  } else {
+    let m = db.members.find(x=>x.id===f.get('member'));
+    if(!m) return alert('Tambahkan anggota dahulu!');
+    memberId = m.id;
+    memberName = m.name;
+  }
+
+  if(editingLoanIndex >= 0){
+    let l = db.loans[editingLoanIndex];
+    l.member = memberId;
+    l.memberName = memberName;
+    l.isExternal = isExt;
+    l.amount = num(f.get('amount'));
+    l.interest = num(f.get('interest'));
+    l.date = f.get('date');
+    editingLoanIndex = -1;
+  } else {
+    db.loans.push({
+      loanId: 'LN' + Date.now(),
+      member: memberId,
+      memberName: memberName,
+      isExternal: isExt,
+      amount: num(f.get('amount')),
+      interest: num(f.get('interest')),
+      paidPrincipal: 0,
+      paidInterest: 0,
+      date: f.get('date')
+    });
+  }
+
+  save();
+  render();
+};
+
+let pls=document.getElementById('payLoanSelect');
+let pInfo=document.getElementById('paymentInfo');
+function updatePaymentInfo(){
+  if(!pls || !pls.value) { if(pInfo) pInfo.textContent='Silakan pilih pinjaman aktif.'; return; }
+  let l = db.loans[+pls.value];
+  if(!l) return;
+  let remainingPrincipal = num(l.amount) - num(l.paidPrincipal);
+  let remainingInterest = Math.max(0, num(l.interest) - num(l.paidInterest));
+  if(pInfo) {
+    let statusText = l.isExternal ? ' (Luar Anggota)' : '';
+    pInfo.innerHTML = `<b>Detail Pinjaman:</b> Peminjam: <b>${esc(l.memberName)}${statusText}</b> | Sisa Pinjaman: <b>${rupiah(remainingPrincipal)}</b> | Bunga Berjalan: <b>${rupiah(remainingInterest)}</b>`;
+  }
+}
+if(pls){
+  pls.onchange=updatePaymentInfo;
+  updatePaymentInfo();
+}
+
+let pf=document.getElementById('paymentForm');
+if(pf)pf.onsubmit=e=>{
+  e.preventDefault();
+  if(!pls || pls.value==="") return alert('Pilih pinjaman terlebih dahulu');
+  let loanIndex = +pls.value;
+  let l = db.loans[loanIndex];
+  if(!l) return alert('Data pinjaman tidak ditemukan');
+
+  let f = new FormData(pf);
+  let principal = num(f.get('principal'));
+  let interest = num(f.get('interest'));
+
+  let remainingPrincipal = num(l.amount) - num(l.paidPrincipal);
+  let remainingInterest = Math.max(0, num(l.interest) - num(l.paidInterest));
+
+  if(principal > remainingPrincipal) return alert('Jumlah pembayaran pinjaman melebihi sisa pokok (' + rupiah(remainingPrincipal) + ')');
+  if(interest > remainingInterest) return alert('Pembayaran bunga melebihi bunga berjalan (' + rupiah(remainingInterest) + ')');
+  if(principal === 0 && interest === 0) return alert('Masukkan nominal pembayaran pinjaman atau bunga.');
+
+  l.paidPrincipal = num(l.paidPrincipal) + principal;
+  l.paidInterest = num(l.paidInterest) + interest;
+
+  db.payments.push({
+    loanId: l.loanId || ('OLD' + loanIndex),
+    member: l.member,
+    memberName: l.memberName + (l.isExternal ? ' (Luar Anggota)' : ''),
+    principal,
+    interest,
+    date: new Date().toISOString().slice(0, 10)
+  });
+
+  save();
+  render();
+};
+
+let af=document.getElementById('accountForm');
+if(af)af.onsubmit=e=>{
+  e.preventDefault();
+  let f=new FormData(af);
+  if(current.password!==f.get('old'))return alert('Password lama salah');
+  if(db.users.some(u=>u!==current&&u.username.toLowerCase()===f.get('username').trim().toLowerCase()))return alert('Username sudah digunakan');
+  current.username=f.get('username').trim();
+  current.name=f.get('name').trim();
+  current.password=f.get('pass');
+  save();
+  who.textContent=current.name+' (Admin)';
+  alert('Akun admin berhasil diperbarui');
+  render();
+};
+}
+save(false);
+</script></body></html>
